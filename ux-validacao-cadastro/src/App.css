@@ -1,0 +1,91 @@
+#root {
+  margin: 0 auto;
+}
+
+.container {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  font-family: 'Consolas', monospace;
+}
+
+h1 {
+  text-align: center;
+  font: sans-serif;
+  font-size: 2.2rem;
+  color: #2d3748;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+input {
+  padding: 0.7rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+input:focus {
+  border-color: #3182ce;
+  outline: none;
+}
+
+input[aria-invalid="true"] {
+  border-color: #e53e3e;
+  background: #fff5f5;
+}
+
+.erro {
+  color: #e53e3e;
+  font-size: 0.92rem;
+  margin-top: 0.2rem;
+}
+
+.sucesso {
+  margin-top: 1rem;
+  color: #38a169;
+  background: #f0fff4;
+  padding: 0.8rem;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 500;
+  animation: fadeIn 0.7s;
+}
+
+.btn {
+  width: 100%;
+  padding: 0.9rem;
+  background: linear-gradient(90deg, #3182ce 60%, #63b3ed 100%);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn:hover, .btn:focus {
+  background: #2b6cb0;
+  transform: translateY(-2px) scale(1.01);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
