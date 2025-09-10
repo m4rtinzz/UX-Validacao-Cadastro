@@ -35,12 +35,68 @@ function App() {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [success, setSuccess] = useState(false);
 
+  function formatCpf(value: string) {
+    return value
+      .replace(/\D/g, "")
+      .replace(/^(\d{3})(\d)/, "$1.$2")
+      .replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3")
+      .replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3-$4")
+      .slice(0, 14);
+  }
+
+  function formatCep(value: string) {
+    return value
+      .replace(/\D/g, "")
+      .replace(/^(\d{2})(\d)/, "$1.$2")
+      .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2-$3")
+      .slice(0, 10);
+  }
+
+  function formatCelular(value: string) {
+    return value
+      .replace(/\D/g, "")
+      .replace(/^(\d{2})(\d)/, "($1) $2")
+      .replace(/^(\(\d{2}\)\s)(\d{5})(\d)/, "$1$2-$3")
+      .slice(0, 15);
+  }
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+    let newValue = value;
+
+    if (name === "cpf") {
+      newValue = formatCpf(value);
+    } else if (name === "cep") {
+      newValue = formatCep(value);
+    } else if (name === "celular") {
+      newValue = formatCelular(value);
+    }
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: newValue,
     });
-    setErrors({ ...errors, [e.target.name]: "" });
+
+    // Validação de senha e confirmação
+    let newErrors = { ...errors, [name]: "" };
+
+    if (name === "senha" || name === "confirmarSenha") {
+      const senha = name === "senha" ? newValue : formData.senha;
+      const confirmarSenha = name === "confirmarSenha" ? newValue : formData.confirmarSenha;
+
+      if (senha.length > 0 && senha.length < 8) {
+        newErrors.senha = "Senha deve ter pelo menos 8 caracteres.";
+      } else {
+        newErrors.senha = "";
+      }
+
+      if (confirmarSenha && senha !== confirmarSenha) {
+        newErrors.confirmarSenha = "As senhas não coincidem.";
+      } else {
+        newErrors.confirmarSenha = "";
+      }
+    }
+
+    setErrors(newErrors);
     setSuccess(false);
   }
 
@@ -201,44 +257,48 @@ function App() {
           )}
         </div>
 
-        <div className="form-group">
-          <label htmlFor="senha">Senha:</label>
-          <input
-            id="senha"
-            type="password"
-            name="senha"
-            value={formData.senha}
-            onChange={handleChange}
-            placeholder="Digite sua senha"
-            aria-invalid={!!errors.senha}
-            aria-describedby="senha-erro"
-            autoComplete="new-password"
-          />
-          {errors.senha && (
-            <span className="erro" id="senha-erro" role="alert">
-              {errors.senha}
-            </span>
-          )}
-        </div>
+        // ...existing code...
+        {/* Agrupar senha e confirmar senha lado a lado */}
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="senha">Senha:</label>
+            <input
+              id="senha"
+              type="password"
+              name="senha"
+              value={formData.senha}
+              onChange={handleChange}
+              placeholder="Digite sua senha"
+              aria-invalid={!!errors.senha}
+              aria-describedby="senha-erro"
+              autoComplete="new-password"
+            />
+            {errors.senha && (
+              <span className="erro" id="senha-erro" role="alert">
+                {errors.senha}
+              </span>
+            )}
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="confirmarSenha">Confirmar senha:</label>
-          <input
-            id="confirmarSenha"
-            type="password"
-            name="confirmarSenha"
-            value={formData.confirmarSenha}
-            onChange={handleChange}
-            placeholder="Confirme sua senha"
-            aria-invalid={!!errors.confirmarSenha}
-            aria-describedby="confirmarSenha-erro"
-            autoComplete="new-password"
-          />
-          {errors.confirmarSenha && (
-            <span className="erro" id="confirmarSenha-erro" role="alert">
-              {errors.confirmarSenha}
-            </span>
-          )}
+          <div className="form-group">
+            <label htmlFor="confirmarSenha">Confirmar senha:</label>
+            <input
+              id="confirmarSenha"
+              type="password"
+              name="confirmarSenha"
+              value={formData.confirmarSenha}
+              onChange={handleChange}
+              placeholder="Confirme sua senha"
+              aria-invalid={!!errors.confirmarSenha}
+              aria-describedby="confirmarSenha-erro"
+              autoComplete="new-password"
+            />
+            {errors.confirmarSenha && (
+              <span className="erro" id="confirmarSenha-erro" role="alert">
+                {errors.confirmarSenha}
+              </span>
+            )}
+          </div>
         </div>
 
         <button type="submit" className="btn">

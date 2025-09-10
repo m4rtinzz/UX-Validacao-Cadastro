@@ -3,13 +3,13 @@
 }
 
 .container {
-  max-width: 400px;
+  max-width: 500px;
   margin: 2rem auto;
   padding: 2rem;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  font-family: 'Consolas', monospace;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 h1 {
@@ -19,6 +19,18 @@ h1 {
   color: #2d3748;
   margin-bottom: 1.5rem;
 }
+
+/* ...existing code... */
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-row .form-group {
+  flex: 1 1 0;
+  margin-bottom: 0; /* Remove margem extra entre os campos lado a lado */
+}
+/* ...existing code... */
 
 .form-group {
   margin-bottom: 1.2rem;
@@ -31,23 +43,27 @@ label {
   margin-bottom: 0.3rem;
   color: #333;
 }
-
 input {
   padding: 0.7rem;
   border: 1.5px solid #cbd5e1;
   border-radius: 6px;
   font-size: 1rem;
   transition: border-color 0.2s;
+  background: #23272f;      /* fundo escuro */
+  color: #f3f3f3;           /* letras claras */
 }
 
 input:focus {
   border-color: #3182ce;
   outline: none;
+  background: #23272f;      /* mantém fundo escuro no foco */
+  color: #f3f3f3;
 }
 
 input[aria-invalid="true"] {
   border-color: #e53e3e;
-  background: #fff5f5;
+  background: #23272f;      /* mantém fundo escuro mesmo com erro */
+  color: #f3f3f3;
 }
 
 .erro {
